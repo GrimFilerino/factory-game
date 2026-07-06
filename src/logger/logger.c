@@ -12,7 +12,7 @@ static char* join_path(const char* path1, const char* path2) {
     return result;
 }
 
-void create_log(enum Logtype type, char *message) {
+void create_log(log_statuses_t type, char* message) {
         char* errorType = "";
         switch (type) {
                 case INFO: { 
