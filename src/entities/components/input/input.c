@@ -2,7 +2,7 @@
 #include "../../../hashmap/hashmap.h"
 
 struct EntityInputs {
-        Input** inputs;
+        input_t** inputs;
         int current_index;
 };
 
@@ -32,7 +32,7 @@ void handlePlayerMovment(Player* player) {
 }
 */
 
-void bind_input(char* entityId, Input input) {
+void bind_input(char* entityId, input_t input) {
         if(input_action == NULL) {
                 input_action = create_hash_map();
         }
@@ -41,9 +41,9 @@ void bind_input(char* entityId, Input input) {
         if(data == NULL) {
                 struct EntityInputs new_data = {0};
                 new_data.current_index = 0;
-                new_data.inputs = calloc(MAX_INPUTS, sizeof(Input));
+                new_data.inputs = calloc(MAX_INPUTS, sizeof(input_t));
 
-                Input* new_input = malloc(sizeof(Input));
+                input_t* new_input = malloc(sizeof(input_t));
                 new_input->key = input.key;
                 new_input->action = input.action;
 
@@ -56,7 +56,7 @@ void bind_input(char* entityId, Input input) {
         input_data->current_index++;
 
 
-        Input* new_input = malloc(sizeof(Input));
+        input_t* new_input = malloc(sizeof(input_t));
         new_input->key = input.key;
         new_input->action = input.action;
 
@@ -66,4 +66,4 @@ void bind_input(char* entityId, Input input) {
 void unbind_input(char* entityId, char* key);
 
 void check_input();
-void handle_input(Entity* entity);
+void handle_input(entity_t* entity);
