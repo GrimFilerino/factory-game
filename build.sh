@@ -1,2 +1,3 @@
 mkdir -p build
-gcc src/**/*.c -o build/my_game -lraylib
+shopt -s globstar
+gcc src/**/*.c -o build/my_game -lraylib -lm
