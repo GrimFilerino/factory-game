@@ -3,6 +3,7 @@
 #include <stdint.h>
 #include "entities/components/components.h"
 #include "entities/entity.h"
+#include "gui/gui.h"
 #include "raylib.h"
 #include "rcamera.h"
 #include "entities/entity_manager.h"
@@ -13,6 +14,8 @@ int main() {
         InitAudioDevice();
 
         InitWindow(screenWidth, screenHeight, "Factory Game");
+
+        init_gui_manager();
 
         initialize_entity_manager();
         create_entity(PLAYER);
@@ -29,6 +32,7 @@ int main() {
 
         while (!WindowShouldClose()) {
                 destroy_entities();
+                delete_guis();
 
                 BeginDrawing();
 
@@ -40,6 +44,7 @@ int main() {
                 draw_entities();
 
                 EndMode2D();
+                update_guis();
 
                 EndDrawing();
 
