@@ -17,7 +17,7 @@ int main() {
         initialize_entity_manager();
         create_entity(PLAYER);
 
-        Camera2D* camera = {0};
+        Camera2D* camera = malloc(sizeof(Camera2D));
         camera->zoom = 1.0f;
         camera->offset = (Vector2){ (float)screenWidth / 2, (float)screenHeight / 2 };
 
@@ -29,7 +29,6 @@ int main() {
 
         while (!WindowShouldClose()) {
                 destroy_entities();
-                //camera.target = player.position;
 
                 BeginDrawing();
 
