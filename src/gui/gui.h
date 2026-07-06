@@ -4,32 +4,22 @@
 #include "raylib.h"
 #include "../math/vector.h"
 
-typedef struct gui_text_box {
+typedef enum gui_type {
+        TEXT_BOX
+} gui_type_t;
+
+
+typedef struct text_box_data {
         char *text;
         Texture2D* texture;
         Font* font;
         float font_size;
-        vec2_t text_pos;
         vec2_t pos;
-        vec2_t size;
-} gui_text_box_t;
+} text_box_data_t;
 
-
-/*
-typedef struct gui_item_text_box {
-        char *text;
-        char* item_id;
-        Texture2D texture;
-        Font font;
-        float font_size;
-        vec2_t text_pos;
-        vec2_t pos;
-        vec2_t size;
-} gui_item_text_box_t;
-*/
-
-gui_text_box_t* create_gui_text_box(char *text, float font_size, vec2_t pos, Font* font, Texture2D* texture);
-void draw_gui_text_box(gui_text_box_t* box);
-void delete_gui_text_box(gui_text_box_t* box);
+void init_gui_manager();
+void create_gui(gui_type_t type, void* data);
+void update_guis();
+void delete_guis();
 
 #endif 
