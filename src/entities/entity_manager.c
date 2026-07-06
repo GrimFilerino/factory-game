@@ -126,36 +126,42 @@ void add_component_to_entity(char* id, components_t component, void* data) {
 }
 
 void remove_component_from_entity(char* id, components_t component) {
-             switch (component) {
+        switch (component) {
                 case TRANSFORM:
                 break;
                 
-                case CAMERA:
+                case CAMERA: {
                         entity_t* e = get_entity_by_id(id);
 
                         if(e != NULL) {
                                 e->has_camera = false;
-                                hash_map_remove(camera, id)
+                                hash_map_remove(camera, id);
                         } else {
                                //TODO add logger to catch error here
                                create_log(WARNING, "Tried to remove camera from entity but entity does not exist");
                         }
-                break;
+                        break;
+                }
         }   
 }
 
 char** get_entities_by_type(entities_t type) {
+        if(!entities) {
+                return NULL;
+        }
+
         char** entity_ids = calloc(4, sizeof(char*));
 
         int index = 0;
-        for(unsigned short i = 0; i <  sizeof(entities); i++) {
+        for(unsigned short i = 0; i < entity_index; i++) {
                 entity_t* e = entities[i];
                 if(e->type == type) {
-                        if(sizeof(entity_ids) < index) {
+                        if(sizeof(entity_ids) <= index) {
                                 entity_ids = reallocarray(entity_ids, index * 2, sizeof(char*));
                         }
 
                         entity_ids[index] = e->id;
+                        index++;
                 }
         }
 
@@ -189,7 +195,7 @@ void update_entities(void){
 }
 
 void destroy_entities(void){
-
+        //TODO add this :D
 }
 
 
