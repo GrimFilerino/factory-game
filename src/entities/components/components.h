@@ -5,6 +5,7 @@
 typedef enum components {
         TRANSFORM,
         CAMERA,
+        INPUT,
 } components_t;
 
 #endif
