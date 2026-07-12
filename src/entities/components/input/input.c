@@ -32,38 +32,23 @@ void handlePlayerMovment(Player* player) {
 }
 */
 
-void bind_input(char* entityId, input_t input) {
+void bind_input(char* entityId, input_t* input) {
         if(input_action == NULL) {
                 input_action = create_hash_map();
         }
 
         void* data = hash_map_get(input_action, entityId);
         if(data == NULL) {
-                struct EntityInputs new_data = {0};
-                new_data.current_index = 0;
-                new_data.inputs = calloc(MAX_INPUTS, sizeof(input_t));
-
-                input_t* new_input = malloc(sizeof(input_t));
-                new_input->key = input.key;
-                new_input->action = input.action;
-
-                new_data.inputs[new_data.current_index] = new_input;
                 return;
         }
 
-        
-        struct EntityInputs* input_data = (struct EntityInputs *)data;
-        input_data->current_index++;
-
-
-        input_t* new_input = malloc(sizeof(input_t));
-        new_input->key = input.key;
-        new_input->action = input.action;
-
-        input_data->inputs[input_data->current_index] = new_input;
-
+        hash_map_add(input_action, input->key, input); 
 }
-void unbind_input(char* entityId, char* key);
 
-void check_input();
-void handle_input(entity_t* entity);
+void unbind_input(char* entityId, char* key) {
+        hash_map_remove(input_action, key); 
+}
+
+void handle_input(entity_t* entity) {
+                
+}

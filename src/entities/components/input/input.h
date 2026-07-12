@@ -2,7 +2,7 @@
 #define INPUT_H
 
 #include "../../entity.h"
-#define MAX_INPUTS 50
+#define MAX_INPUTS 4
 
 typedef enum actions {
         MOVE_UP,
