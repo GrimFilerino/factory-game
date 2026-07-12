@@ -1,10 +1,13 @@
 #include "entity_manager.h"
 #include "components/components.h"
+#include "components/input/input.h"
 #include "components/sprite/sprite.h"
 #include "components/transform/transform.h"
 #include "../logger/logger.h"
 #include "entity.h"
+#include <cstdlib>
 #include <raylib.h>
+#include <stdio.h>
 #include <stdlib.h>
 
 entity_t** entities;
@@ -33,8 +36,24 @@ static char* uuid() {
         return buf;
 }
 
+
+static void add_sprite(char* id, char* filepath, float width, float height) {
+        sprite_t* spr = malloc(sizeof(sprite_t));
+       
+        unsigned int texture_id = add_texture(filepath);
+
+        *spr = (sprite_t){
+                .size = (vec2_t){ .x = width, .y = height },
+                .frame_position = 0,
+                .texture_id = texture_id,
+                .animation_index = 0 
+        };
+
+        hash_map_add(sprite, id, spr);
+}
+
 static void add_transform(char* id, vec2_t pos) {
-        transform_t* tf = malloc(sizeof(*tf));
+        transform_t* tf = malloc(sizeof(transform_t));
 
         *tf = (transform_t){
                 .position = &pos,
@@ -90,7 +109,29 @@ void create_entity(entities_t type) {
                                 return;
                         }
 
-                        add_transform(player->id, (vec2_t){ .x = 0, .y = 0});
+                        add_transform(player->id, (vec2_t){ .x = 120, .y = 120});
+                        
+                        char path[1024];
+                        snprintf(path, sizeof(path), "%sassets/player.png", GetApplicationDirectory());
+
+                        add_sprite(player->id, path, 20, 20);
+
+                        bind_input(player->id, (input_t){
+                                .key="W",
+                                .action=MOVE_UP
+                        }); 
+                        bind_input(player->id, (input_t){
+                                .key="A",
+                                .action=MOVE_LEFT
+                        }); 
+                        bind_input(player->id, (input_t){
+                                .key="D",
+                                .action=MOVE_RIGTH
+                        }); 
+                        bind_input(player->id, (input_t){
+                                .key="S",
+                                .action=MOVE_DOWN
+                        }); 
 
                         entities[entity_index] = player;
                         entity_index++;
@@ -106,21 +147,29 @@ void create_entity(entities_t type) {
 }
 
 void add_component_to_entity(char* id, components_t component, void* data) {
+        entity_t* e = get_entity_by_id(id);
+
         switch (component) {
                 case TRANSFORM:
                 break;
                 
                 case CAMERA:
-                        entity_t* e = get_entity_by_id(id);
                         if(e != NULL) {
                                 e->has_camera = true;
 
                                 //Data should be a Camera2D pointer
                                 hash_map_add(camera, e->id, data);
                         } else {
-                               //TODO add logger to catch error here
                                create_log(ERROR, "Tried to add camera to entity but entity does not exist");
                         }
+                break;
+
+                case INPUT:
+                        if(e != NULL) {
+                                
+                        } else {
+                                create_log(ERROR, "Tried to add camera to entity but entity does not exist");
+                        } 
                 break;
         }
 }
@@ -176,8 +225,8 @@ void update_entities(void){
                 if(e->has_transform) {
                         transform_t* e_transform = hash_map_get(transform, e->id);
 
-                        if(e->has_input) {
-                                
+                        if(e->has_input) { 
+                                handle_input(e); 
                         }
 
                         if(e->has_camera) {
@@ -203,7 +252,9 @@ void draw_entities(void) {
         for(unsigned short i = 0; i < entity_index; i++) {
                 entity_t* e = entities[i];
                 if(e->has_sprite && e->has_transform) {
-                       sprite_t* e_sprite = hash_map_get(sprite, e->id); 
+                        sprite_t* e_sprite = hash_map_get(sprite, e->id);
+                        transform_t* e_transfrom = hash_map_get(transform, e->id);
+                        draw_sprite(e_sprite, e_transfrom->position);
                 }
         }
 }
