@@ -91,7 +91,6 @@ void create_gui(gui_type_t type, void* data){
                         gui_text_box_t* new_box = create_gui_text_box(box->text, box->font_size, box->pos, box->font, box->texture);
                         hash_map_add(guis, new_box->id, (void*)new_box);
                         gui_keys[gui_index] = new_box->id;
-                                
                         gui_index++;
                 break;
         }
@@ -108,5 +107,6 @@ void update_guis() {
                 }
         }
 }
-void delete_guis();
+void delete_guis(){
+}
 
