@@ -1,8 +1,10 @@
 #ifndef INPUT_H
 #define INPUT_H
 
+#include "../transform/transform.h"
 #include "../../entity.h"
-#define MAX_INPUTS 4
+
+#define ACTION_SIZE 4
 
 typedef enum actions {
         MOVE_UP,
@@ -14,14 +16,14 @@ typedef enum actions {
 typedef struct input {
         char* key;
         actions_t action;
+        int key_code;
 } input_t;
 
-void bind_input(char* entityId, input_t input);
-void unbind_input(char* entityId, char* key);
+void bind_input(actions_t action, int key_code);
+void unbind_input(char* action);
+void handle_input(entity_t* entity, transform_t* transform, float speed);
 
-void check_input();
-void handle_input(entity_t* entity);
-
+const char* get_hash_map_key(actions_t action);
 
 #endif
 
