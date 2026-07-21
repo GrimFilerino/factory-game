@@ -5,7 +5,6 @@
 #include "components/transform/transform.h"
 #include "../logger/logger.h"
 #include "entity.h"
-#include <cstdlib>
 #include <raylib.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -54,13 +53,28 @@ static void add_sprite(char* id, char* filepath, float width, float height) {
 
 static void add_transform(char* id, vec2_t pos) {
         transform_t* tf = malloc(sizeof(transform_t));
+        
+        vec2_t* position = malloc(sizeof(vec2_t));
+
+        if(!position) {
+                return;
+        }
+
+        vec2_t* velocity = malloc(sizeof(vec2_t));
+
+        if(!velocity) {
+                return;
+        }
+
+        velocity->x = 0.0f;
+        velocity->y = 0.0f;
+
+        position->x = pos.x;
+        position->y = pos.y;
 
         *tf = (transform_t){
-                .position = &pos,
-                .velocity = &(vec2_t) {
-                        .x = 0,
-                        .y = 0,
-                }
+                .position = position,
+                .velocity = velocity
         }; 
 
         hash_map_add(transform, id, tf);
@@ -116,22 +130,10 @@ void create_entity(entities_t type) {
 
                         add_sprite(player->id, path, 20, 20);
 
-                        bind_input(player->id, (input_t){
-                                .key="W",
-                                .action=MOVE_UP
-                        }); 
-                        bind_input(player->id, (input_t){
-                                .key="A",
-                                .action=MOVE_LEFT
-                        }); 
-                        bind_input(player->id, (input_t){
-                                .key="D",
-                                .action=MOVE_RIGTH
-                        }); 
-                        bind_input(player->id, (input_t){
-                                .key="S",
-                                .action=MOVE_DOWN
-                        }); 
+                        bind_input(MOVE_UP, KEY_W); 
+                        bind_input(MOVE_DOWN, KEY_S); 
+                        bind_input(MOVE_LEFT, KEY_A); 
+                        bind_input(MOVE_RIGTH, KEY_D); 
 
                         entities[entity_index] = player;
                         entity_index++;
@@ -226,7 +228,7 @@ void update_entities(void){
                         transform_t* e_transform = hash_map_get(transform, e->id);
 
                         if(e->has_input) { 
-                                handle_input(e); 
+                                handle_input(e, e_transform, 20.0f);
                         }
 
                         if(e->has_camera) {
