@@ -2,13 +2,15 @@
 #define DAMAGE_H
 
 typedef struct damage {
-        unsigned short damage; // <-- current expected damage of an entity (can change based on weapons and upgrades)
-        unsigned short crit_chance; // <-- current expected crit chance of an entity (can change based on weapons and upgrades, range from 0 to 1000 aka 0 to 100%)
+        float damage;
+        float crit_chance;
 } damage_t;
 
-
-void set_damage_data(char* entityId, damage_t damage);
-void do_damage(char* entityId, char* otherEntityId);
+void initialize_damage(char* entity_id, float damage, float crit_chance);
+void update_crit_chance(char* entity_id, float new_crit_chance);
+void update_damage(char* entity_id, float new_damage);
+void do_damage(char* entity_id, char* other_entity_id);
+damage_t* get_damage_component(char* entity_id);
 
 #endif
 
