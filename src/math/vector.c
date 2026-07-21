@@ -1,5 +1,6 @@
 #include "./vector.h"
 #include <math.h>
+#include <stdbool.h>
 
 void set_vector_to_constant(vec2_t *a, float c) {
         a->x = c;
@@ -44,4 +45,24 @@ vec2_t normalize_vector(vec2_t a) {
 
 vec2_t normalize_vector_scale(vec2_t a, float s) {
         return scale_vector(normalize_vector(a), s); 
+}
+
+float distance_between_vectors(vec2_t a, vec2_t b){
+        return sqrt(((a.x - b.x) +  (a.y - b.y)));
+}
+
+bool is_distance_less(vec2_t a, vec2_t b, float distance){
+        if(distance_between_vectors(a, b) < distance){
+                return true;
+        }
+
+        return false;
+}
+
+bool is_distance_more(vec2_t a, vec2_t b, float distance) {
+        if(distance_between_vectors(a, b) > distance){
+                return true;
+        }
+
+        return false;
 }

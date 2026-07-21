@@ -1,6 +1,8 @@
 #ifndef VECTOR_H 
 #define VECTOR_H
 
+#include <stdbool.h>
+
 typedef struct vec2 {
         float x;
         float y;
@@ -23,5 +25,10 @@ vec2_t sqrt_vector(vec2_t a);
 
 vec2_t normalize_vector(vec2_t a);
 vec2_t normalize_vector_scale(vec2_t a, float s);
+
+float distance_between_vectors(vec2_t a, vec2_t b);
+
+bool is_distance_less(vec2_t a, vec2_t b, float distance);
+bool is_distance_more(vec2_t a, vec2_t b, float distance);
 
 #endif
