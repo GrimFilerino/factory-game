@@ -1,7 +1,7 @@
 #include <memory.h>
 #include <stdbool.h>
 #include <stdint.h>
-#include "entities/components/components.h"
+#include "entities/components/camera/camera.h"
 #include "entities/entity.h"
 #include "gui/gui.h"
 #include "raylib.h"
@@ -15,18 +15,23 @@ int main() {
 
         InitWindow(screenWidth, screenHeight, "Factory Game");
 
-        init_gui_manager();
-
-        initialize_entity_manager();
-        create_entity(PLAYER);
-
         Camera2D* camera = malloc(sizeof(Camera2D));
+        
+        if(!camera) {
+                return 1;
+        }
+
         camera->zoom = 1.0f;
         camera->offset = (Vector2){ (float)screenWidth / 2, (float)screenHeight / 2 };
 
-        //Could exist more then one player
-        char** players = get_entities_by_type(PLAYER);
-        add_component_to_entity(players[0], CAMERA, (void*)camera);
+        initialize_camera(camera);
+
+        init_gui_manager();
+
+        initialize_entity_manager();
+
+        create_entity(PLAYER);
+        create_entity(WALL);
 
         SetTargetFPS(60); 
 
