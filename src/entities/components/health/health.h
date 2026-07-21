@@ -9,8 +9,8 @@
  */
 
 typedef struct health {
-        unsigned short current_health;
-        unsigned short max_health;
+        float current_health;
+        float max_health;
 } health_t;
 
 /**
@@ -20,7 +20,7 @@ typedef struct health {
  *  @param[in] health The starting health
  *  @param[in] max_health The current max health of the entity
  */
-void initialize_health(char* entityId, unsigned short health, unsigned short max_health);
+void initialize_health(char* entityId, float health, float max_health);
 
 /**
  *  @brief A way to adjust the max_health
@@ -28,7 +28,7 @@ void initialize_health(char* entityId, unsigned short health, unsigned short max
  *  @param[in] entityId The string id of the entity
  *  @param[in] new_max_health The amount the new max_health should be
  */
-void set_max_health(char* entityId, unsigned short new_max_health);
+void set_max_health(char* entityId, float new_max_health);
 
 
 /**
@@ -37,7 +37,7 @@ void set_max_health(char* entityId, unsigned short new_max_health);
  *  @param[in] entityId The string id of the entity
  *  @param[in] amount The amount which the health should be adjusted
  */
-void adjust_health(char* entityId, short amount);
+void adjust_health(char* entityId, float amount);
 
 
 /**
@@ -47,7 +47,7 @@ void adjust_health(char* entityId, short amount);
  *
  *  @return The health of the entity
  */
-unsigned short get_health(char* entityId);
+float get_health(char* entityId);
 
 
 #endif
