@@ -10,8 +10,8 @@ typedef struct sprite {
         unsigned int texture_id;
 } sprite_t;
 
+void initialize_sprite(char* id, char* filepath, float width, float height);
 unsigned int add_texture(char* filename);
-
-void draw_sprite(sprite_t* sprite, vec2_t* pos);
+void draw_sprite(char* entity_id);
 
 #endif
