@@ -51,10 +51,8 @@ void unbind_input(char* action) {
         hash_map_remove(input_action, action); 
 }
 
-void handle_input(entity_t* entity, transform_t* transform, float speed) {
-        transform->velocity->y = 0.0f;
-        transform->velocity->x = 0.0f;
-
+void handle_input(char* entity_id) {
+        transform_t* transform = get_transform_component(entity_id);
         float dt = GetFrameTime();
 
         for(int i = 0; i < ACTION_SIZE; i++){
@@ -65,27 +63,26 @@ void handle_input(entity_t* entity, transform_t* transform, float speed) {
                 if(IsKeyDown(input->key_code)){
                         switch(input->action) {
                                 case MOVE_UP:
-                                        transform->velocity->y = -speed * dt; 
-                                        break;
+                                        transform->velocity->y += -transform->movement_speed * dt; 
+                                break;
 
                                 case MOVE_DOWN:
-                                        transform->velocity->y = speed * dt;
-                                        break;
+                                        transform->velocity->y += transform->movement_speed * dt;
+                                break;
 
                                 case MOVE_LEFT:
-                                        transform->velocity->x = -speed * dt; 
-                                        break;
+                                        transform->velocity->x += -transform->movement_speed * dt; 
+                                break;
 
                                 case MOVE_RIGTH:
-                                        transform->velocity->x = speed * dt;
-                                        break;
+                                        transform->velocity->x += transform->movement_speed * dt;
+                                break;
 
                         }
                 }
                
                 free(action);
         }        
-        
-        transform->position->y += (float)sin((double)transform->velocity->y);
-        transform->position->x += (float)sin((double)transform->velocity->x);
+       
+        apply_uniformed_velocity(entity_id);
 }

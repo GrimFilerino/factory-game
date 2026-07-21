@@ -21,7 +21,7 @@ typedef struct input {
 
 void bind_input(actions_t action, int key_code);
 void unbind_input(char* action);
-void handle_input(entity_t* entity, transform_t* transform, float speed);
+void handle_input(char* entity_id);
 
 const char* get_hash_map_key(actions_t action);
 
