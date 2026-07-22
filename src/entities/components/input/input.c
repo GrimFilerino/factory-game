@@ -1,6 +1,6 @@
 #include "input.h"
 #include "../../../hashmap/hashmap.h"
-#include <math.h>
+#include "../sound/sound.h"
 #include <string.h>
 #include <raylib.h>
 
@@ -12,10 +12,11 @@ struct EntityInputs {
 Hashmap* input_action;
 
 const char *action_names[ACTION_SIZE] = {
-    "MOVE_UP",
-    "MOVE_DOWN",
-    "MOVE_LEFT",
-    "MOVE_RIGHT"
+        "MOVE_UP",
+        "MOVE_DOWN",
+        "MOVE_LEFT",
+        "MOVE_RIGHT",
+        "ATTACK"
 };
 
 
@@ -76,6 +77,10 @@ void handle_input(char* entity_id) {
 
                                 case MOVE_RIGTH:
                                         transform->velocity->x += transform->movement_speed * dt;
+                                break;
+
+                                case ATTACK:
+                                        play_sound(TEST);
                                 break;
 
                         }
