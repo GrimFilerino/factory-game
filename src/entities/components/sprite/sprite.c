@@ -17,7 +17,7 @@ void initialize_sprite(char* id, char* filepath, float width, float height) {
                 .size = (vec2_t){ .x = width, .y = height },
                 .frame_position = 0,
                 .texture_id = texture_id,
-                .animation_index = 0 
+                .animation_index = 0,
         };
 
         if(sprites == NULL) {
@@ -38,11 +38,9 @@ unsigned int add_texture(char* filename) {
                 textures = create_hash_map();
         }
 
-        printf("Loading: %s\n", filename);
         *texture = LoadTexture(filename);
 
         if (texture->id == 0) {
-                printf("Failed to load texture: %s\n", filename);
                 free(texture);
                 return 0;
         }
@@ -61,7 +59,6 @@ void draw_sprite(char* entity_id) {
         transform_t* transform = get_transform_component(entity_id);
 
         if(!transform || !sprite) {
-                printf("nerf \n");
                 return;
         }
 
@@ -70,7 +67,6 @@ void draw_sprite(char* entity_id) {
         Texture2D* texture = hash_map_get(textures, str_id);
 
         if (texture == NULL) {
-                printf("Texture %u not found!\n", sprite->texture_id);
                 return;
         }
 
