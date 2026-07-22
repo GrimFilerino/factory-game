@@ -4,6 +4,7 @@
 #include "components/damage/damage.h"
 #include "components/health/health.h"
 #include "components/input/input.h"
+#include "components/sound/sound.h"
 #include "components/sprite/sprite.h"
 #include "components/transform/transform.h"
 #include "../logger/logger.h"
@@ -15,6 +16,8 @@
 #include <stdlib.h>
 
 entity_t** entities;
+
+Music music;
 
 unsigned char entity_index = 0;
 
@@ -48,6 +51,25 @@ static entity_t* get_entity_by_id(char* id) {
 
 void initialize_entity_manager(void) {
         entities = calloc(MAX_ENTITIES, 8);
+        
+        SetMasterVolume(100);
+        initialize_sounds();
+
+        bind_input(MOVE_UP,     KEY_W); 
+        bind_input(MOVE_DOWN,   KEY_S); 
+        bind_input(MOVE_LEFT,   KEY_A); 
+        bind_input(MOVE_RIGTH,  KEY_D);
+        bind_input(ATTACK,      KEY_F);
+
+
+        char path[1024];
+        snprintf(path, sizeof(path), "%sassets/music/music.mp3", GetApplicationDirectory());
+        music = LoadMusicStream(path);
+
+        if(!IsMusicStreamPlaying(music)) {
+                PlayMusicStream(music);
+        }
+
 }
 
 void create_entity(entities_t type) {
@@ -78,12 +100,8 @@ void create_entity(entities_t type) {
                         snprintf(path, sizeof(path), "%sassets/player.png", GetApplicationDirectory());
                         initialize_sprite(player->id, path, 20, 20);
 
-                        bind_input(MOVE_UP,     KEY_W); 
-                        bind_input(MOVE_DOWN,   KEY_S); 
-                        bind_input(MOVE_LEFT,   KEY_A); 
-                        bind_input(MOVE_RIGTH,  KEY_D); 
 
-                        initialize_aabb(player->id, 20, 20);
+                        initialize_aabb(player->id, 20, 20, 0, 0);
 
                         initialize_damage(player->id, 15.0f, 0.0f);
 
@@ -123,7 +141,7 @@ void create_entity(entities_t type) {
                         snprintf(path, sizeof(path), "%sassets/wall.png", GetApplicationDirectory());
                         initialize_sprite(wall->id, path, 32, 32);
 
-                        initialize_aabb(wall->id, 32, 32);
+                        initialize_aabb(wall->id, 32, 24, 0, 4);
 
                         entities[entity_index] = wall;
                         entity_index++;
@@ -135,7 +153,10 @@ void create_entity(entities_t type) {
 
 
 
-void update_entities(void){
+void update_entities(void) {
+        SetMusicVolume(music, 0.1);
+        UpdateMusicStream(music);
+
         for(unsigned short i = 0; i < entity_index; i++) {
                 entity_t* e = entities[i];
                 if(e->has_transform) {
@@ -163,7 +184,6 @@ void update_entities(void){
                         }
                 }
         }
-
         trace_entity_with_camera();
 }
 
