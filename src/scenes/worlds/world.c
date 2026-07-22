@@ -1,6 +1,7 @@
 #include <memory.h>
 #include <stdbool.h>
 #include <stdint.h>
+#include <stdlib.h>
 #include "entities/components/camera/camera.h"
 #include "entities/entity.h"
 #include "gui/gui.h"
@@ -8,20 +9,15 @@
 #include "rcamera.h"
 #include "entities/entity_manager.h"
 
-int main() {
-        const int screenWidth = 800;
-        const int screenHeight = 450;
-        InitAudioDevice();
 
-        InitWindow(screenWidth, screenHeight, "Factory Game");
-
+void play() {
         Camera2D* camera = malloc(sizeof(Camera2D));
-        
+
         if(!camera) {
                 return 1;
         }
 
-        camera->zoom = 1.0f;
+        camera->zoom = 2.0f;
         camera->offset = (Vector2){ (float)screenWidth / 2, (float)screenHeight / 2 };
 
         initialize_camera(camera);
@@ -35,7 +31,6 @@ int main() {
 
         SetTargetFPS(60); 
 
-        while (!WindowShouldClose()) {
                 destroy_entities();
                 delete_guis();
 
@@ -53,9 +48,4 @@ int main() {
 
                 EndDrawing();
 
-        }
-
-        CloseWindow(); 
-        return 0;
 }
-
