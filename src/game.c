@@ -3,9 +3,15 @@
 #include <raylib.h>
 
 
-void game() {
-        scene_initialize(); 
+static void game_play() {
         while (!WindowShouldClose()) {
                 scene_play();
         }
+}
+
+
+//Load save files, settings and other things
+void game_init() {
+        scene_initialize();
+        game_play();
 }

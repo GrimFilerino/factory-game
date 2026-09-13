@@ -37,3 +37,7 @@ void trace_entity_with_camera() {
         }
 }
 
+
+void deinitalize_camera() {
+        free(camera_tracer);
+}
