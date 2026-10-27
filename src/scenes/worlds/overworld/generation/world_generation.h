@@ -26,8 +26,8 @@ typedef struct tile_data {
 } tile_data_t;
 
 typedef struct world_chunk {
-        vec2_t origin_pos;
-        biome_t biome;
+        vec2_t* origin_pos;
+        biome_t* biome;
         tile_data_t tile_data[CHUNK_MAX_TILE_AMOUNT]; 
 } world_chunk_t;
 
