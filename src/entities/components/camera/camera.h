@@ -13,4 +13,6 @@ void initialize_camera(Camera2D* camera);
 void switch_entity_to_trace(char* entity_id);
 void trace_entity_with_camera();
 
+bool camera_follows_entity(char* entity_id);
+
 #endif

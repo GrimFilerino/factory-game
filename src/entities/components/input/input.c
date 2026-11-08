@@ -4,11 +4,6 @@
 #include <string.h>
 #include <raylib.h>
 
-struct EntityInputs {
-        input_t** inputs;
-        int current_index;
-};
-
 Hashmap* input_action;
 
 const char *action_names[ACTION_SIZE] = {
@@ -19,6 +14,7 @@ const char *action_names[ACTION_SIZE] = {
         "ATTACK"
 };
 
+char* current_entity_id = "";
 
 const char* get_hash_map_key(actions_t action) {
         return action_names[action];
@@ -52,7 +48,19 @@ void unbind_input(char* action) {
         hash_map_remove(input_action, action); 
 }
 
+void set_input_entity_id(char* id) {
+        current_entity_id = id;
+}
+
+bool entity_has_input(char* entity_id) {
+        return strcmp(current_entity_id, entity_id); 
+}
+
 void handle_input(char* entity_id) {
+        if(!entity_has_input(entity_id)) {
+                return;
+        }
+
         transform_t* transform = get_transform_component(entity_id);
         float dt = GetFrameTime();
 

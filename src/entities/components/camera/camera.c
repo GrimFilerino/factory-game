@@ -37,6 +37,10 @@ void trace_entity_with_camera() {
         }
 }
 
+bool camera_follows_entity(char* entity_id) {
+       char* id = camera_tracer->entity_id;
+       return strcmp(entity_id, id) == 0 ? true : false;
+}
 
 void deinitalize_camera() {
         free(camera_tracer);

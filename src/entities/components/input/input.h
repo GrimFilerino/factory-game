@@ -2,7 +2,6 @@
 #define INPUT_H
 
 #include "../transform/transform.h"
-#include "../../entity.h"
 
 #define ACTION_SIZE 5
 
@@ -23,6 +22,8 @@ typedef struct input {
 void bind_input(actions_t action, int key_code);
 void unbind_input(char* action);
 void handle_input(char* entity_id);
+
+bool entity_has_input(char* entity_id);
 
 const char* get_hash_map_key(actions_t action);
 
